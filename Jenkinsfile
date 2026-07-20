@@ -5,10 +5,11 @@ pipeline {
       steps { checkout scm }
     }
     stage('Build and run e2e with coverage') {
-      steps {
-        sh 'docker compose build e2e-runner'
-        sh 'docker compose up --abort-on-container-exit e2e-runner'
-      }
+        steps {
+            sh 'docker compose down -v --remove-orphans || true'
+            sh 'docker compose build e2e-runner'
+            sh 'docker compose up --abort-on-container-exit e2e-runner'
+        }
     }
     stage('Archive coverage') {
       steps {
