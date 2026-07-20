@@ -13,7 +13,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [['list'], ['./e2e/coverage/backend-coverage-reporter.ts']],
+  reporter: [['list'], ['./e2e/reporter/backend-coverage-reporter.ts']],
   use: {
     trace: 'on-first-retry',
   },
