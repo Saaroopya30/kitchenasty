@@ -16,6 +16,21 @@ services:
       timeout: 5s
       retries: 5
 
+  e2e-runner:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - COVERAGE=true
+      - DATABASE_URL=postgresql://kitchenasty:kitchenasty@postgres:5432/kitchenasty
+    volumes:
+      - ./output:/app/output
+    ports:
+      - "5173:5173"
+      - "5174:5174"
+      - "3000:3000"
+
   server:
     build:
       context: .

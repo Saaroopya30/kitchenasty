@@ -1,0 +1,14 @@
+{
+  "all": false,
+  "extension": [".js", ".ts"],
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/__tests__/**",
+    "**/node_modules/**"
+  ],
+  "reporter": [],
+  "temp-dir": ".nyc_output",
+  "sourceMap": true,
+  "instrument": true
+}

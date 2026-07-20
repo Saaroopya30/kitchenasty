@@ -1,4 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+
+// Force every worker process to load the hook before it requires any spec
+// file, so @playwright/test imports inside e2e/storefront get redirected
+// to fixtures.ts without editing the spec files themselves.
+const hookPath = path.resolve(__dirname, 'e2e/storefront/hook.cjs');
+process.env.NODE_OPTIONS = `${process.env.NODE_OPTIONS ?? ''} -r ${hookPath}`.trim();
 
 export default defineConfig({
   testDir: './e2e',
@@ -6,8 +13,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'list',
-  timeout: 30000,
+  reporter: [['list'], ['./e2e/coverage/backend-coverage-reporter.ts']],
   use: {
     trace: 'on-first-retry',
   },
@@ -31,7 +37,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'npm run dev:server',
+      command: 'cross-env COVERAGE=true npm run dev:server',
       url: 'http://localhost:3000/api/health',
       reuseExistingServer: !process.env.CI,
       timeout: 30000,

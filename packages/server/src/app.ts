@@ -30,6 +30,7 @@ import logger from './lib/logger.js';
 import { requestId } from './middleware/requestId.js';
 import { httpLogger } from './middleware/httpLogger.js';
 import { metricsCollector } from './middleware/metricsCollector.js';
+import coverageRoutes from './routes/coverage.routes';
 
 // Initialize automation event listeners
 import './lib/events.js';
@@ -121,6 +122,7 @@ export function createApp() {
   app.use('/api/developer', developerRoutes);
   app.use('/api/gallery', galleryRoutes);
   app.use('/api/media', mediaRoutes);
+  app.use('/__coverage__', coverageRoutes);
 
   // 404 handler
   app.use((_req, res) => {

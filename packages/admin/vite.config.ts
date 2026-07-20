@@ -1,9 +1,25 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import istanbul from "vite-plugin-istanbul";
 
 export default defineConfig({
   base: process.env.VITE_BASE_PATH || '/',
-  plugins: [react()],
+  plugins: [react(),
+    istanbul({
+        include: "src/**/*",
+        exclude: [
+          "node_modules",
+          "test",
+          "tests",
+          "e2e",
+          "**/*.test.*",
+          "**/*.spec.*",
+        ],
+        extension: [".js", ".jsx", ".ts", ".tsx"],
+        requireEnv: false,
+        forceBuildInstrument: true,
+      }),
+  ],
   server: {
     port: 5173,
     proxy: {
