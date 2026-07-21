@@ -11,6 +11,7 @@ pipeline {
             unstable("Playwright tests failed (exit code ${testExitCode}) — coverage will still be archived")
           }
         }
+        sh 'docker compose cp e2e-runner:/app/output ./output'
       }
     }
     stage('Archive coverage') {
